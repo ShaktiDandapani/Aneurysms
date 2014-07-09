@@ -6,8 +6,8 @@ def minimum_distance_sort(distance_dict):
 
     minimum_line_1 = final_set[0][1]
     minimum_line_2 = final_set[1][1]
-
-    return minimum_line_1, minimum_line_2
+    print 'sorted dict: ', final_set
+    return final_set, minimum_line_1, minimum_line_2
 
 
 # The function is used to find the common point amongst the four points.
