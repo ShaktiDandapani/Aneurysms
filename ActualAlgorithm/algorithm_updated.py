@@ -7,153 +7,99 @@ import plot_overlap as diagrams
 
 def main():
 
-    line1 = [p3D.Point3D(1, 3, 1), p3D.Point3D(3, 4, 2), p3D.Point3D(5, 4, 3), p3D.Point3D(6, 4, 4), p3D.Point3D(7 ,2, 5)]
-    line2 = [p3D.Point3D(1, 5, 4), p3D.Point3D(2, 4, 3), p3D.Point3D(4, 3, 2), p3D.Point3D(5, 3, 1)]
+    line2 = [p3D.Point3D(1, 3, 1), p3D.Point3D(3, 4, 2), p3D.Point3D(5, 4, 3), p3D.Point3D(6, 4, 4)]
+    line1 = [p3D.Point3D(1, 5, 4), p3D.Point3D(2, 4, 3), p3D.Point3D(4, 3, 2), p3D.Point3D(5, 3, 1)]
 
-    distance_dict_xy_plane = {}
-    distance_dict_yz_plane = {}
-    distance_dict_zx_plane = {}
+    distance_dict_xy_plane = fmath.get_dist_dict_xy(line1, line2)
+    distance_dict_yz_plane = fmath.get_dist_dict_yz(line1, line2)
+    distance_dict_zx_plane = fmath.get_dist_dict_zx(line1, line2)
 
-    # for now X and Y co ordinates --> make a separate function which takes in Point3D
-    for point1 in line1:
-        for point2 in line2:
-            within_sqrt = (pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2))
-            euclidean_distance = round(math.sqrt(within_sqrt), 3)
-            line1_points = [point1.x, point1.y]
-            line2_points = [point2.x, point2.y]
-            line_points = [line1_points, line2_points]
-            #print line1_points, line2_points
-            if euclidean_distance > 0:
-                distance_dict_xy_plane[euclidean_distance] = line_points
-
-    print distance_dict_xy_plane
-    #print distance_dict_xy_plane
-    ## For yz plane
-    for point1 in line1:
-        for point2 in line2:
-            within_sqrt = (pow((point1.y - point2.y), 2) + pow((point1.z - point2.z), 2))
-            euclidean_distance = round(math.sqrt(within_sqrt), 3)
-            line1_points = [point1.y, point1.z]
-            line2_points = [point2.y, point2.z]
-            line_points = [line1_points, line2_points]
-            if euclidean_distance > 0:
-                distance_dict_yz_plane[euclidean_distance] = line_points
-
-    ## For zx plane
-    for point1 in line1:
-        for point2 in line2:
-            within_sqrt = (pow((point1.z - point2.z), 2) + pow((point1.x - point2.x), 2))
-            euclidean_distance = round(math.sqrt(within_sqrt), 3)
-            line1_points = [point1.z, point1.x]
-            line2_points = [point2.z, point2.x]
-            line_points = [line1_points, line2_points]
-            if euclidean_distance > 0:
-                distance_dict_zx_plane[euclidean_distance] = line_points
+    # print distance_dict_xy_plane
+    # print distance_dict_yz_plane
+    # print distance_dict_zx_plane
 
     point_of_int_flag = False
 
-    while not point_of_int_flag :
+    while not point_of_int_flag:
+        incr_entry = 1
         #function to obtain 2 shortest lines
         # make it return the entire list and select the distances based on need.
-        [all_distances_set, short_line_1, short_line_2] = fmath.minimum_distance_sort(distance_dict_xy_plane)
+        all_distances_set_xy_plane = fmath.minimum_distance_sort(distance_dict_xy_plane)
+        all_distances_set_yz_plane = fmath.minimum_distance_sort(distance_dict_yz_plane)
+        all_distances_set_zx_plane = fmath.minimum_distance_sort(distance_dict_zx_plane)
+        # print all_distances_set_xy_plane
+        # print all_distances_set_yz_plane
+        # print all_distances_set_zx_plane
 
-        for x in all_distances_set:
-            print '>>>', x
+        short_line_1_xy_plane = all_distances_set_xy_plane[0][1]
+        short_line_2_xy_plane = all_distances_set_xy_plane[incr_entry][1]
+
+        short_line_1_yz_plane = all_distances_set_yz_plane[0][1]
+        short_line_2_yz_plane = all_distances_set_yz_plane[incr_entry][1]
+
+        short_line_1_zx_plane = all_distances_set_zx_plane[0][1]
+        short_line_2_zx_plane = all_distances_set_zx_plane[incr_entry][1]
+
         #Set of points after common point or with no common point
-        #points_set = set(short_line_1)
-        temp_list = []
-        temp_list.extend(short_line_1)
-        temp_list.extend(short_line_2)
-        print 'Points from shortest distance>>', temp_list
+        #points_set = set(short_line_1_xy_plane)
+        temp_list_xy_plane = short_line_1_xy_plane + short_line_2_xy_plane
+        temp_list_yz_plane = short_line_1_yz_plane + short_line_2_yz_plane
+        temp_list_zx_plane = short_line_1_zx_plane + short_line_2_zx_plane
+
+        # temp_list_xy_plane = []
+        # temp_list_xy_plane.extend(short_line_1_xy_plane)
+        # temp_list_xy_plane.extend(short_line_2_xy_plane)
+        print 'Points for two shortest distance>> xy plane: ', temp_list_xy_plane
+        print 'Points for two shortest distance>> yz plane: ', temp_list_yz_plane
+        print 'Points for two shortest distance>> zx plane: ', temp_list_zx_plane
 
         # if common point check presence in line sets --> and then do the distance finding to get the next point
         # which forms the convex quadrilateral
-        [common_point, set_of_final_points] = fmath.cp_finder(temp_list)
-        print 'common_point', common_point
+        [common_point_xy_plane, final_points_xy_plane] = fmath.cp_finder(temp_list_xy_plane)
+        [common_point_yz_plane, final_points_yz_plane] = fmath.cp_finder(temp_list_yz_plane)
+        [common_point_zx_plane, final_points_zx_plane] = fmath.cp_finder(temp_list_zx_plane)
 
-        print 'final points', set_of_final_points
+        print 'common_point_xy_plane', common_point_xy_plane
+        print 'common_point_yz_plane', common_point_yz_plane
+        print 'common_point_zx_plane', common_point_zx_plane
+
+        print 'final points xy plane', final_points_xy_plane
+        print 'final points yz plane', final_points_yz_plane
+        print 'final points zx plane', final_points_zx_plane
+
+        ################################################################################################################
+
+        #                            CURRENTLY WORK ON PART BELOW                                                      #
+
+        ################################################################################################################
 
         # This is for 3 poiints --> make another loop for 4 points
-        cp_dist_dict_line1 = {}
-        cp_dist_dict_line2 = {}
+        cp_dist_dict_line1_xy_plane = {}
+        cp_dist_dict_line2_xy_plane = {}
 
+        # the for loops are for both lines to check for near point of the cp if they belong to either of the 2 lines
         # Again for the x-y plane
-        if len(set_of_final_points) == 3:
-            for point_a in line1:
-                if point_a.x == common_point[0] and point_a.y == common_point[1]:
-                    print 'cp present in 1st line'
-                    for point in line1:
-                        in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 3)
-                        line_point = [point.x, point.y]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line1[distance] = [line_point, cp_point]
-
-                    # set_of_final_points <-- add the point which forms the convex set to this
-                    sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
-                    print sort_stuff
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
-
-                    print 'closest points to (', common_point[0], common_point[1], ') :'
-                    print cp_closest_point_1, ' & ', cp_closest_point_2
-
-            for point_b in line2:
-                if point_b.x == common_point[0] and point_b.y == common_point[1]:
-                    print 'cp present in 2nd line'
-                    for point in line2:
-                        in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 3)
-                        line_point = [point.x, point.y]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line2[distance] = [line_point, cp_point]
-
-                    # set_of_final_points <-- add the point which forms the convex set to this
-                    sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
-                    print sort_stuff
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
-
-                    print 'closest points to (', common_point[0], common_point[1], ') :'
-                    print cp_closest_point_1, ' & ', cp_closest_point_2
-
-
-                    new_quad_points_cp1 = set_of_final_points + [cp_closest_point_1]
-                    new_quad_points_cp2 = set_of_final_points + [cp_closest_point_2]
-
-                    print 'new lists are'
-                    print 'list 1:', new_quad_points_cp1
-                    print 'list 2:', new_quad_points_cp2
-
-                    polygon_cp1 = poly.Polygon(*new_quad_points_cp1)
-                    polygon_cp2 = poly.Polygon(*new_quad_points_cp2)
-
-                    # convex check
-                    # try plotting it out
-                    if polygon_cp1.is_convex():
-                        print polygon_cp1.is_convex()
-                    else:
-                        print 'quad with cp1 is concave'
-
-                    if polygon_cp2.is_convex():
-                        print polygon_cp2.is_convex()
-                    else:
-                        print'quad with cp2 is concave'
-
-            # insert the point in the final point --> will get 2 lists for 2 points on either sidem then do convex
-            # testing and insert the one forming the convex
+        if len(final_points_xy_plane) == 3:
+            fmath.get_fourth_point_xy_plane(line1, line2, final_points_xy_plane, common_point_xy_plane,
+                                            cp_dist_dict_line1_xy_plane, cp_dist_dict_line2_xy_plane)
+        # if len(final_points_yz_plane) == 3:
+        #     fmath.get_fourth_point_yz_plane(line1, line2, final_points_yz_plane, common_point_yz_plane,
+        #                                   cp_dist_dict_line1_yz_plane, cp_dist_dict_line2_yz_plane)
+        # if len(final_points_zx_plane) == 3:
+        #     fmath.get_fourth_point_zx_plane(line1, line2, final_points_xy_plane, common_point_xy_plane,
+        #                                   cp_dist_dict_line1_xy_plane, cp_dist_dict_line2_xy_plane)
         else:
             # four points directly
-            quad_points = set_of_final_points
+            quad_points = final_points_xy_plane
             # do convex checks etc..
-            print 'no common point'
+            print 'for four points'
 
         #The line below should be after we find a point of intersection
+        incr_entry += 1
         point_of_int_flag = True
 
         #here Increment the dictionary for the next side discarding the larger line from the two short_lines
+
 
     ## Plots below
     #Plot the figures
