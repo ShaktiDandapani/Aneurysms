@@ -1,7 +1,7 @@
 # sorts a dictionary in ascending order for keys.
 def minimum_distance_sort(distance_dict):
     #make this return two lists -> line1 and line2
-    # return the dictionary tooo... as if intersection is not found take next set of points
+    # return the dictionary too... as if intersection is not found take next set of points
     final_set = sorted(distance_dict.iteritems())
 
     minimum_line_1 = final_set[0][1]
