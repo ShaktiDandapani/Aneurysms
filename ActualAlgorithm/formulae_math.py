@@ -1,49 +1,104 @@
 import math
+import sympy as sp
+from operator import itemgetter
 
 
-def minimum_distance_sort(distance_dict):
+def minimum_distance_sort(simple_distances):
     """
-    # sorts a dictionary in ascending order for keys.
-    distance dict should be of the form
-
-    --> { 'distance':
-                [ point1_line1, point2_line1, point1_line2, point2_line2]
-        }
-        each point is of the form [x,y]
+    # # sorts a dictionary in ascending order for keys.
+    # distance dict should be of the form
+    #
+    # --> { 'distance':
+    #             [ point1_line1, point2_line1, point1_line2, point2_line2]
+    #     }
+    #     each point is of the form [x,y]
 
     :param distance_dict:
     :return sorted distance_dict:
     """
+    #
+    # final_set = sorted(distance_dict.iteritems())
+    # print 'dicationary of distances >> ', final_set
 
-    final_set = sorted(distance_dict.iteritems())
+    final_set = sorted(simple_distances, key=itemgetter(0))
+    # print '>>', final_set
 
     return final_set
 
 
 def cp_finder(temp_list):
     """
-    The function is used to find the common point amongst the four points.
+    checks if there is a common point.
+    1. if there is returns a common point and the list of points with it
+    2. if no common point returns the original list back
 
     :param temp_list:
-    :return common_point, new_list:
+    :return common_point, set_list_of_points:
     """
-    d = {}
+    print 'wo set', temp_list
+    p_set = set(map(tuple, temp_list))
+    unique_points = map(list, p_set)
+    print 'with set', temp_list,'<>', unique_points
+    intermediary_dict = {}
 
     for point in temp_list:
-        if point[0] in d:
-            d[point[0]] += point[1]
-            result = [point[0], point[1]]
+        if tuple(point) in intermediary_dict:
+            intermediary_dict[tuple(point)] += 1
         else:
-            d[point[0]] = point[1]
-        ## Get the common points list
+            intermediary_dict[tuple(point)] = 1
 
-    p_set = set(map(tuple, temp_list))
-    q_points = map(list, p_set)
+    print 'common_point dictionary', intermediary_dict
 
-    return result, q_points
+    common_point = ''
+
+    # if v == 1 what then -->
+    for k, v in intermediary_dict.iteritems():
+        if v == 2:
+            common_point = k
+
+    if common_point != '':
+        unique_points.remove(list(common_point))
+        print '>>>', unique_points + [list(common_point)]
+
+        set_list_of_points = unique_points + [list(common_point)]
+    else:
+        set_list_of_points = temp_list
+
+    return common_point, set_list_of_points
 
 
+def cp_point_of_intersection(four_possible_points):
+    """
+    finds the point of intersection
 
+    :param four_possible_points:
+    :return:
+    """
+
+    line1_p1 = sp.Point(four_possible_points[0])
+    line1_p2 = sp.Point(four_possible_points[1])
+
+    line2_p1 = sp.Point(four_possible_points[2])
+    line2_p2 = sp.Point(four_possible_points[3])
+
+    l1 = sp.Line(line1_p1, line1_p2)
+    l2 = sp.Line(line2_p1, line2_p2)
+
+    ## Below make a loop if point found set flag to true else incr_entry += 1
+    #print 'point of intersection', sp.intersection(l1, l2)
+    point_of_intersection_xy_list = sp.intersection(l1, l2)
+    point_of_intersection_xy = point_of_intersection_xy_list[0]
+    print 'xy plane point of intersection', point_of_intersection_xy
+
+    # point_one = sp.Point(four_possible_points[0])
+    # point_two = sp.Point(four_possible_points[1])
+    # point_three = sp.Point(four_possible_points[2])
+    # point_four = sp.Point(four_possible_points[3])
+    #
+    # area_original_polygon = sp.Polygon(point_one, point_two, point_three, point_four).area
+    #
+    # triangle_one = sp.Triangle(point_one, point_two, point_of_intersection_xy)
+    # triangle_two = sp.Triangle(point_two, point_three, point_of_intersection_xy)
 
 
 def get_dist_dict_xy(line1, line2):
@@ -57,19 +112,24 @@ def get_dist_dict_xy(line1, line2):
     :param line2:
     :return:
     """
-    distance_dict_xy_plane = {}
+    simple_distances = []
+    # distance_dict_xy_plane = {}
     for point1 in line1:
         for point2 in line2:
             within_sqrt = (pow((point1.x - point2.x), 2) + pow((point1.y - point2.y), 2))
             euclidean_distance = round(math.sqrt(within_sqrt), 3)
+            # print 'distance: ', euclidean_distance
             line1_points = [point1.x, point1.y]
             line2_points = [point2.x, point2.y]
             line_points = [line1_points, line2_points]
+
             #print line1_points, line2_points
             if euclidean_distance > 0:
-                distance_dict_xy_plane[euclidean_distance] = line_points
+                simple_distances.append([euclidean_distance, line_points])
+                # distance_dict_xy_plane[euclidean_distance] = line_points
 
-    return distance_dict_xy_plane
+    print 'yaha', simple_distances
+    return simple_distances
 
 
 def get_dist_dict_yz(line1, line2):
@@ -79,7 +139,8 @@ def get_dist_dict_yz(line1, line2):
     :param line2:
     :return:
     """
-    distance_dict_yz_plane = {}
+    simple_distances = []
+    # distance_dict_yz_plane = {}
     for point1 in line1:
         for point2 in line2:
             within_sqrt = (pow((point1.y - point2.y), 2) + pow((point1.z - point2.z), 2))
@@ -88,9 +149,10 @@ def get_dist_dict_yz(line1, line2):
             line2_points = [point2.y, point2.z]
             line_points = [line1_points, line2_points]
             if euclidean_distance > 0:
-                distance_dict_yz_plane[euclidean_distance] = line_points
+                simple_distances.append([euclidean_distance, line_points])
+                # distance_dict_yz_plane[euclidean_distance] = line_points
 
-    return distance_dict_yz_plane
+    return simple_distances
 
 
 def get_dist_dict_zx(line1, line2):
@@ -100,7 +162,8 @@ def get_dist_dict_zx(line1, line2):
     :param line2:
     :return:
     """
-    distance_dict_zx_plane = {}
+    simple_distances = []
+    # distance_dict_zx_plane = {}
     for point1 in line1:
         for point2 in line2:
             within_sqrt = (pow((point1.z - point2.z), 2) + pow((point1.x - point2.x), 2))
@@ -109,9 +172,10 @@ def get_dist_dict_zx(line1, line2):
             line2_points = [point2.z, point2.x]
             line_points = [line1_points, line2_points]
             if euclidean_distance > 0:
-                distance_dict_zx_plane[euclidean_distance] = line_points
+                simple_distances.append([euclidean_distance, line_points])
+                # distance_dict_zx_plane[euclidean_distance] = line_points
 
-    return distance_dict_zx_plane
+    return simple_distances
 
 
 ################################################################################################################
@@ -121,7 +185,6 @@ def get_dist_dict_zx(line1, line2):
 ################################################################################################################
 def get_fourth_point_xy_plane(line1, line2, common_point, cp_dist_dict_line1, cp_dist_dict_line2):
     """
-
     :param line1:
     :param line2:
     :param set_of_final_points:
