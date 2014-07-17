@@ -37,7 +37,6 @@ class Line(object):
             return m
         except ZeroDivisionError:
             # Vertical Line
-            print 'for slope zero division'
             return None
 
     def intercept_constant(self, slope):
@@ -48,15 +47,12 @@ class Line(object):
         """
 
         if self.x2 - self.x1 == 0 and slope is None:
-            print 'vertical Line'
             return self.x1
 
         elif self.y2 - self.y1 == 0 and slope is not None:
-            print 'horizontal Line'
             return self.y1
 
         if slope is not None:
-            # (x, y) = self.point_1
             return self.y1 - slope * self.x1
 
     def convex_criteria(self, x, y, slope, intercept_c):
