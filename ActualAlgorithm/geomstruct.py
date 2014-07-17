@@ -18,27 +18,26 @@ class Point3D(object):
 
 
 class Line(object):
-    """
-    define a line and a few methods to calculate various attributes
-    """
     def __init__(self, data):
         point_1, point_2 = data
         self.point_1 = point_1
         self.point_2 = point_2
+        (self.x1, self.y1), (self.x2, self.y2) = self.point_1, self.point_2
         # print point_1, point_2
 
+    # works for both zero -> None and div by zero -> None
     def slope(self):
         """
         Get slope of a line segment
         :return:
         """
 
-        (x1, y1), (x2, y2) = self.point_1, self.point_2
-
         try:
-            return float(y2 - y1) / float(x2 - x1)
+            m = float(self.y2 - self.y1) / float(self.x2 - self.x1)
+            return m
         except ZeroDivisionError:
             # Vertical Line
+            print 'for slope zero division'
             return None
 
     def intercept_constant(self, slope):
@@ -48,11 +47,17 @@ class Line(object):
         :return:
         """
 
+        if self.x2 - self.x1 == 0 and slope is None:
+            print 'vertical Line'
+            return self.x1
+
+        elif self.y2 - self.y1 == 0 and slope is not None:
+            print 'horizontal Line'
+            return self.y1
+
         if slope is not None:
-            (x, y) = self.point_1
-            return y - slope * x
-        else:
-            return None
+            # (x, y) = self.point_1
+            return self.y1 - slope * self.x1
 
     def convex_criteria(self, x, y, slope, intercept_c):
         """
@@ -64,7 +69,14 @@ class Line(object):
         :param intercept_c:
         :return y - mx - c:
         """
+        # print self.x1, self.y1
+        # print self.x2, self.y2
+        if self.x1 - self.x2 == 0:
+            return x - self.x1
+
+        if self.y1 - self.y2 == 0:
+            # print y, 'subtracting ->', self.y1
+            return y - self.y1
+
         if slope is not None and intercept_c is not None:
             return y - slope * x - intercept_c
-        else:
-            return None

@@ -3,6 +3,27 @@ import sympy as sp
 from operator import itemgetter
 
 
+def correct_order(x):
+    """
+
+    :param x:
+    :return:
+    """
+    if x[0][0] == x[1][0]:
+        if x[0][1] < x[1][1]:
+            temp = x[0]
+            x[0] = x[1]
+            x[1] = temp
+
+
+    if x[2][0] == x[3][0]:
+        if x[2][1] < x[3][1]:
+            xtemp = x[2]
+            x[2] = x[3]
+            x[3] = xtemp
+
+    return x
+
 def minimum_distance_sort(simple_distances):
     """
     # # sorts a dictionary in ascending order for keys.
@@ -38,7 +59,7 @@ def cp_finder(temp_list):
     print 'wo set', temp_list
     p_set = set(map(tuple, temp_list))
     unique_points = map(list, p_set)
-    print 'with set', temp_list,'<>', unique_points
+    print 'with set', temp_list, '<>', unique_points
     intermediary_dict = {}
 
     for point in temp_list:
@@ -195,7 +216,6 @@ def get_fourth_point_xy_plane(line1, line2, common_point, cp_dist_dict_line1, cp
     """
     for point_a in line1:
                 if point_a.x == common_point[0] and point_a.y == common_point[1]:
-                    print 'cp present in 1st line'
                     for point in line1:
                         in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
                         distance = round(math.sqrt(in_root), 3)
@@ -204,9 +224,7 @@ def get_fourth_point_xy_plane(line1, line2, common_point, cp_dist_dict_line1, cp
                         if distance > 0.0:
                             cp_dist_dict_line1[distance] = [line_point, cp_point]
 
-                    # set_of_final_points <-- add the point which forms the convex set to this
                     sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
-                    # print sort_stuff
                     cp_closest_point_1 = sort_stuff[0][1][0]
                     cp_closest_point_2 = sort_stuff[1][1][0]
 
@@ -214,7 +232,6 @@ def get_fourth_point_xy_plane(line1, line2, common_point, cp_dist_dict_line1, cp
 
     for point_b in line2:
                 if point_b.x == common_point[0] and point_b.y == common_point[1]:
-                    # print 'cp present in 2nd line'
                     for point in line2:
                         in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
                         distance = round(math.sqrt(in_root), 3)
@@ -223,28 +240,8 @@ def get_fourth_point_xy_plane(line1, line2, common_point, cp_dist_dict_line1, cp
                         if distance > 0.0:
                             cp_dist_dict_line2[distance] = [line_point, cp_point]
 
-                    # set_of_final_points <-- add the point which forms the convex set to this
                     sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
-                    # print sort_stuff
                     cp_closest_point_1 = sort_stuff[0][1][0]
                     cp_closest_point_2 = sort_stuff[1][1][0]
 
                     return cp_closest_point_1, cp_closest_point_2
-
-    # if polygon_cp1.is_convex():
-    #
-    #     print polygon_cp1.is_convex()
-    #     return new_quad_points_cp1
-    #
-    # else:
-    #     print 'quad with closest point 1 is concave'
-    #
-    # if polygon_cp2.is_convex():
-    #
-    #     print polygon_cp2.is_convex()
-    #     return new_quad_points_cp2
-    #
-    # else:
-    #     print'quad with closest point 2 is concave'
-    # # insert the point in the final point --> will get 2 lists for 2 points on either sidem then do convex
-    # # testing and insert the one forming the convex
