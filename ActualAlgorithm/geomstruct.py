@@ -1,3 +1,5 @@
+import math
+
 class Point3D(object):
     """
     define a point object and its methods.
@@ -76,3 +78,12 @@ class Line(object):
 
         if slope is not None and intercept_c is not None:
             return y - slope * x - intercept_c
+
+    def length(self):
+        #
+        # print self.x1, self.y1
+        # print self.x2, self.y2
+        sqrt_value = (pow((self.x2 - self.x1), 2) + pow((self.y2 - self.y1), 2))
+        length = round(math.sqrt(sqrt_value), 3)
+
+        return length
