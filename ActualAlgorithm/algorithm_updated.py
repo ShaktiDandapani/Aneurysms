@@ -117,11 +117,11 @@ def main():
                     else:
                         incr_entry += 1
 
-                if within_polygon:
-                    final_xy_intersection_point = point_of_intersection_xy
-                    point_of_int__xy_plane_flag = True
-                else:
-                    incr_entry += 1
+                    if within_polygon:
+                        final_xy_intersection_point = point_of_intersection_xy
+                        point_of_int__xy_plane_flag = True
+                    else:
+                        incr_entry += 1
             else:
                 print 'not enough data to solve for a polygon in xy plane'
                 point_of_int__xy_plane_flag = True
@@ -218,11 +218,11 @@ def main():
                     else:
                         incr_entry += 1
 
-                if within_polygon:
-                    final_yz_intersection_point = point_of_intersection_yz
-                    point_of_int__yz_plane_flag = True
-                else:
-                    incr_entry += 1
+                    if within_polygon:
+                        final_yz_intersection_point = point_of_intersection_yz
+                        point_of_int__yz_plane_flag = True
+                    else:
+                        incr_entry += 1
             else:
                 print 'not enough data for a polygon in yz plane'
                 point_of_int__yz_plane_flag = True
@@ -316,11 +316,11 @@ def main():
                     else:
                         incr_entry += 1
 
-                if within_polygon:
-                    final_zx_intersection_point = point_of_intersection_zx
-                    point_of_int__zx_plane_flag = True
-                else:
-                    incr_entry += 1
+                    if within_polygon:
+                        final_zx_intersection_point = point_of_intersection_zx
+                        point_of_int__zx_plane_flag = True
+                    else:
+                        incr_entry += 1
             else:
                 print 'not enough data for a polygon in zx plane'
                 point_of_int__zx_plane_flag = True
