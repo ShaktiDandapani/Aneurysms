@@ -45,7 +45,7 @@ def original_lines(line1, line2, poi_xy_plane, poi_yz_plane, poi_zx_plane):
 
     print poi_x_xy, poi_y_xy
 
-    print 'final point: (', final_x_point, final_y_point, final_z_point, ')'
+    print 'final point: (', final_x_point, ',', final_y_point, ',', final_z_point, ')'
     fig = plt.figure()
     ax = fig.gca(projection='3d')
     ax.plot(x_data, y_data, z_data, 'c-')

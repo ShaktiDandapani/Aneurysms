@@ -172,7 +172,7 @@ def convex_check(polygon_points):
 
 
 def dot_product(a, b, mod_a, mod_b):
-    vec_mult = round(a[0] * b[0] + a[1] * b[1], 4)
+    vec_mult = round(a[0] * b[0] + a[1] * b[1], 2)
     mod_mult = round(mod_a * mod_b, 2)
     try:
         theta_a_rad = round(math.acos(vec_mult / mod_mult), 4)
@@ -312,36 +312,36 @@ def get_fourth_point_xy_plane(line1, line2, common_point):
     cp_dist_dict_line1 = {}
     cp_dist_dict_line2 = {}
     for point_a in line1:
-                if point_a.x == common_point[0] and point_a.y == common_point[1]:
-                    for point in line1:
-                        in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 4)
-                        line_point = [point.x, point.y]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line1[distance] = [line_point, cp_point]
+        if point_a.x == common_point[0] and point_a.y == common_point[1]:
+            for point in line1:
+                in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
+                distance = round(math.sqrt(in_root), 4)
+                line_point = [point.x, point.y]
+                cp_point = [common_point[0], common_point[1]]
+                if distance > 0.0:
+                    cp_dist_dict_line1[distance] = [line_point, cp_point]
 
-                    sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
+            sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
+            cp_closest_point_1 = sort_stuff[0][1][0]
+            cp_closest_point_2 = sort_stuff[1][1][0]
 
-                    return cp_closest_point_1, cp_closest_point_2
+            return cp_closest_point_1, cp_closest_point_2
 
     for point_b in line2:
-                if point_b.x == common_point[0] and point_b.y == common_point[1]:
-                    for point in line2:
-                        in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 4)
-                        line_point = [point.x, point.y]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line2[distance] = [line_point, cp_point]
+        if point_b.x == common_point[0] and point_b.y == common_point[1]:
+            for point in line2:
+                in_root = (pow((point.x - common_point[0]), 2) + pow((point.y - common_point[1]), 2))
+                distance = round(math.sqrt(in_root), 4)
+                line_point = [point.x, point.y]
+                cp_point = [common_point[0], common_point[1]]
+                if distance > 0.0:
+                    cp_dist_dict_line2[distance] = [line_point, cp_point]
 
-                    sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
+            sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
+            cp_closest_point_1 = sort_stuff[0][1][0]
+            cp_closest_point_2 = sort_stuff[1][1][0]
 
-                    return cp_closest_point_1, cp_closest_point_2
+            return cp_closest_point_1, cp_closest_point_2
 
 
 def get_fourth_point_yz_plane(line1, line2, common_point):
@@ -359,42 +359,42 @@ def get_fourth_point_yz_plane(line1, line2, common_point):
     cp_dist_dict_line1 = {}
     cp_dist_dict_line2 = {}
     for point_a in line1:
-                if point_a.y == common_point[0] and point_a.z == common_point[1]:
-                    for point in line1:
-                        in_root = (pow((point.y - common_point[0]), 2) + pow((point.z - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 4)
-                        line_point = [point.y, point.z]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line1[distance] = [line_point, cp_point]
+        if point_a.y == common_point[0] and point_a.z == common_point[1]:
+            for point in line1:
+                in_root = (pow((point.y - common_point[0]), 2) + pow((point.z - common_point[1]), 2))
+                distance = round(math.sqrt(in_root), 4)
+                line_point = [point.y, point.z]
+                cp_point = [common_point[0], common_point[1]]
+                if distance > 0.0:
+                    cp_dist_dict_line1[distance] = [line_point, cp_point]
 
-                    sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
+            sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
+            cp_closest_point_1 = sort_stuff[0][1][0]
+            cp_closest_point_2 = sort_stuff[1][1][0]
 
-                    return cp_closest_point_1, cp_closest_point_2
+            return cp_closest_point_1, cp_closest_point_2
 
     for point_b in line2:
-                if point_b.y == common_point[0] and point_b.z == common_point[1]:
-                    for point in line2:
-                        in_root = (pow((point.y - common_point[0]), 2) + pow((point.z - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 4)
-                        line_point = [point.y, point.z]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line2[distance] = [line_point, cp_point]
+        if point_b.y == common_point[0] and point_b.z == common_point[1]:
+            for point in line2:
+                in_root = (pow((point.y - common_point[0]), 2) + pow((point.z - common_point[1]), 2))
+                distance = round(math.sqrt(in_root), 4)
+                line_point = [point.y, point.z]
+                cp_point = [common_point[0], common_point[1]]
+                if distance > 0.0:
+                    cp_dist_dict_line2[distance] = [line_point, cp_point]
 
-                    sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
+            sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
+            cp_closest_point_1 = sort_stuff[0][1][0]
+            cp_closest_point_2 = sort_stuff[1][1][0]
 
-                    return cp_closest_point_1, cp_closest_point_2
+            return cp_closest_point_1, cp_closest_point_2
 
 
 def get_fourth_point_zx_plane(line1, line2, common_point):
     """
 
-    remember common_point = [y, z]
+    remember common_point = [z, x]
     :param line1:
     :param line2:
     :param set_of_final_points:
@@ -405,37 +405,41 @@ def get_fourth_point_zx_plane(line1, line2, common_point):
     """
     cp_dist_dict_line1 = {}
     cp_dist_dict_line2 = {}
+
+    print 'cp: ', common_point
     for point_a in line1:
-                if point_a.z == common_point[0] and point_a.x == common_point[1]:
-                    for point in line1:
-                        in_root = (pow((point.z - common_point[0]), 2) + pow((point.x - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 4)
-                        line_point = [point.z, point.x]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line1[distance] = [line_point, cp_point]
+        print point_a.z, point_a.x, 'vs ', common_point
+        if point_a.z == common_point[0] and point_a.x == common_point[1]:
+            for point in line1:
+                in_root = (pow((point.z - common_point[0]), 2) + pow((point.x - common_point[1]), 2))
+                distance = round(math.sqrt(in_root), 4)
+                line_point = [point.z, point.x]
+                cp_point = [common_point[0], common_point[1]]
+                if distance > 0.0:
+                    cp_dist_dict_line1[distance] = [line_point, cp_point]
 
-                    sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
+            sort_stuff = sorted(cp_dist_dict_line1.iteritems(), reverse=False)
+            cp_closest_point_1 = sort_stuff[0][1][0]
+            cp_closest_point_2 = sort_stuff[1][1][0]
 
-                    return cp_closest_point_1, cp_closest_point_2
+            return cp_closest_point_1, cp_closest_point_2
+        print 'not found'
 
     for point_b in line2:
-                if point_b.z == common_point[0] and point_b.x == common_point[1]:
-                    for point in line2:
-                        in_root = (pow((point.z - common_point[0]), 2) + pow((point.x - common_point[1]), 2))
-                        distance = round(math.sqrt(in_root), 4)
-                        line_point = [point.z, point.x]
-                        cp_point = [common_point[0], common_point[1]]
-                        if distance > 0.0:
-                            cp_dist_dict_line2[distance] = [line_point, cp_point]
+        if point_b.z == common_point[0] and point_b.x == common_point[1]:
+            for point in line2:
+                in_root = (pow((point.z - common_point[0]), 2) + pow((point.x - common_point[1]), 2))
+                distance = round(math.sqrt(in_root), 4)
+                line_point = [point.z, point.x]
+                cp_point = [common_point[0], common_point[1]]
+                if distance > 0.0:
+                    cp_dist_dict_line2[distance] = [line_point, cp_point]
 
-                    sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
-                    cp_closest_point_1 = sort_stuff[0][1][0]
-                    cp_closest_point_2 = sort_stuff[1][1][0]
+            sort_stuff = sorted(cp_dist_dict_line2.iteritems(), reverse=False)
+            cp_closest_point_1 = sort_stuff[0][1][0]
+            cp_closest_point_2 = sort_stuff[1][1][0]
 
-                    return cp_closest_point_1, cp_closest_point_2
+            return cp_closest_point_1, cp_closest_point_2
 
 """
 below are functions for inside outside pollygon and tirangle area etc
