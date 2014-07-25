@@ -3,49 +3,24 @@ import geomoperations as gops
 import geomplot as diagrams
 
 
-def main():
+def find_overlap(line1, line2):
+    """
+    Calculates the overlap between two lines in 3D space.
+    This is equivalent to finding the point of intersection in 2D space between two lines but
+    in 3D space.
+
+    :param line1:
+    :param line2:
+    :return poi_xy, poi_yz, poi_zx:
+    """
     final_xy_intersection_point = None
     final_yz_intersection_point = None
     final_zx_intersection_point = None
 
-    # line1 = [gs.Point3D(2, 3, 5), gs.Point3D(3, 4, 6), gs.Point3D(5, 4, 3), gs.Point3D(7, 4, 1), gs.Point3D(2, 5, 5)]
-    # line2 = [gs.Point3D(1, 5, 3), gs.Point3D(2, 4, 3), gs.Point3D(4, 3, 3), gs.Point3D(5, 3, 6)]
-    # line2 = [gs.Point3D(7, 5, 3), gs.Point3D(3, 4, 5), gs.Point3D(4, 3, 3), gs.Point3D(5, 3, 6)]
-    #
-    '''
-    xy calculations -> done good result
-    '''
-    # line1 = [gs.Point3D(0, 0, 0), gs.Point3D(0.79, 0.71, 0), gs.Point3D(1.57, 1, 0),
-    #          gs.Point3D(2.35, 0.71, 0), gs.Point3D(3.14, 0, 0), gs.Point3D(3.93, -0.71, 0)]
-    #
-    # line2 = [gs.Point3D(0, -9.86, 0), gs.Point3D(0.5, -9.61, 0), gs.Point3D(1, -8.82, 0), gs.Point3D(2, -5.82, 0),
-    #          gs.Point3D(3, -0.82, 0), gs.Point3D(4, 6.18, 0)]
-
-    '''
-    zx calculations -> done good result
-    '''
-    line1 = [gs.Point3D(1, 0, 0), gs.Point3D(1.5, 0, 0.18), gs.Point3D(2.0, 0, 0.3), gs.Point3D(2.5, 0, 0.40),
-             gs.Point3D(3.0, 0, 0.48), gs.Point3D(3.5, 0, 0.54), gs.Point3D(4, 0, 0.60), gs.Point3D(4.5, 0, 0.65)]
-
-    line2 = [gs.Point3D(1, 0, 2), gs.Point3D(1.5, 0, 1.3), gs.Point3D(2.0, 0, 1.0), gs.Point3D(2.5, 0, 0.8),
-             gs.Point3D(3.0, 0, 0.66), gs.Point3D(3.5, 0, 0.57), gs.Point3D(4, 0, 0.5), gs.Point3D(4.5, 0, 0.44)]
-
-    '''
-    yz calculations -> errors for xy plane ....
-    '''
-    # line1 = [gs.Point3D(1, 0, 0), gs.Point3D(1.5, 0.18, 0), gs.Point3D(2.0, 0.3, 0), gs.Point3D(2.5, 0.4, 0),
-    #          gs.Point3D(3.0, 0.47, 0), gs.Point3D(3.5, 0.54, 0), gs.Point3D(4, 0.6, 0), gs.Point3D(4.5, 0.65, 0)]
-    #
-    # line2 = [gs.Point3D(1, 2, 0), gs.Point3D(1.5, 1.3, 0), gs.Point3D(2.0, 1.0, 0), gs.Point3D(2.5, 0.8, 0),
-    #          gs.Point3D(3.0, 0.66, 0), gs.Point3D(3.5, 0.57, 0), gs.Point3D(4, 0.5, 0), gs.Point3D(4.5, 0.44, 0)]
-
     distance_list_xy_plane = gops.get_dist_dict_xy(line1, line2)
     distance_list_yz_plane = gops.get_dist_dict_yz(line1, line2)
     distance_list_zx_plane = gops.get_dist_dict_zx(line1, line2)
-    #
-    # print distance_list_xy_plane
-    # print distance_list_yz_plane
-    # print distance_list_zx_plane
+
     '''
     Sorting the distances in ascending order so as to get the shortest lines easily
     '''
@@ -59,16 +34,16 @@ def main():
 
     if all_distances_set_xy_plane[0][0] == 0.0:
         final_xy_intersection_point = all_distances_set_xy_plane[0][1][0]
-        # print 'this', final_xy_intersection_point
 
     if all_distances_set_xy_plane[0][0] == 0.0:
         final_yz_intersection_point = all_distances_set_yz_plane[0][1][0]
-        # print 'this', final_yz_intersection_point
 
     if all_distances_set_zx_plane[0][0] == 0.0:
         final_zx_intersection_point = all_distances_set_zx_plane[0][1][0]
-        # print 'this', final_zx_intersection_point
 
+    '''
+    If we do not have zero distance points we move into the loops and search for intersections
+    '''
     incr_entry = 1
     while final_xy_intersection_point is None and incr_entry < len(all_distances_set_xy_plane):
 
@@ -242,7 +217,6 @@ def main():
     ######################################## END OF YZ PLANE CODE ##################################################
 
     incr_entry = 1
-    # print all_distances_set_zx_plane
     while final_zx_intersection_point is None and incr_entry < len(all_distances_set_zx_plane):
 
         short_line_1_zx_plane = all_distances_set_zx_plane[0][1]
@@ -250,12 +224,9 @@ def main():
 
         temp_list_zx_plane = short_line_1_zx_plane + short_line_2_zx_plane
         [common_point_zx_plane, final_points_zx_plane] = gops.cp_finder(temp_list_zx_plane)
-        # print temp_list_zx_plane
         if len(final_points_zx_plane) == 3:
-            # print 'here', final_points_zx_plane
             [close_point_1, close_point_2] = gops.get_fourth_point_zx_plane(line1, line2, common_point_zx_plane)
 
-            # print 'zx commom points,', common_point_zx_plane, ',  closest pts:  ', close_point_1, close_point_2
             new_quad_points_cp1 = final_points_zx_plane + [close_point_1]
             new_quad_points_cp2 = final_points_zx_plane + [close_point_2]
 
@@ -274,13 +245,9 @@ def main():
 
             if polygon_1_convex_truth:
                 within_poly_1 = False
-                # print '1: ', new_quad_points_cp1
-                # print '2: ', new_quad_points_cp2
+
                 p1_first_final_line = gs.Line((new_quad_points_cp1[0], new_quad_points_cp1[1]))
                 p1_second_final_line = gs.Line((new_quad_points_cp1[2], new_quad_points_cp1[3]))
-                #
-                # print p1_first_final_line.point_1, p1_first_final_line.point_2
-                # print p1_second_final_line.point_1, p1_second_final_line.point_2
 
                 p1_point_of_int_zx_plane = gops.intersection(p1_first_final_line, p1_second_final_line)
 
@@ -304,7 +271,6 @@ def main():
                     final_zx_intersection_point = p2_point_of_int_zx_plane
 
         elif len(final_points_zx_plane) == 4:
-                # four points directly
                 within_polygon = False
 
                 polygon_is_triangle = gops.check_triangle(final_points_zx_plane)
@@ -334,19 +300,4 @@ def main():
     print 'zx calculations done'
     ######################################## END OF ZX PLANE CODE ##################################################
 
-    # Plots below
-    # Plot the figures
-    print 'ok'
-    print ' -------------------------------------|'
-    print '|xy plane intersection: ', final_xy_intersection_point, '|'
-    print '|yz plane intersection: ', final_yz_intersection_point, '|'
-    print '|zx plane intersection: ', final_zx_intersection_point, '|'
-    print ' -------------------------------------|'
-    try:
-        diagrams.original_lines(line1, line2, final_zx_intersection_point)\
-            # , final_yz_intersection_point,
-            #                     final_zx_intersection_point)
-    except TypeError:
-        print 'Need three points to plot'
-
-main()
+    return final_xy_intersection_point, final_yz_intersection_point, final_zx_intersection_point
