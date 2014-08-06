@@ -20,6 +20,9 @@ class Point3D(object):
 
 
 class Line(object):
+    """
+    define a line object and its simple attributes.
+    """
     def __init__(self, data):
         point_1, point_2 = data
         self.point_1 = point_1
